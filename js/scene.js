@@ -1,10 +1,13 @@
 var scene, camera;
+var container, stats, controls;
 
 init();
 
 render();
 
 function init() {
+    container = document.getElementById('container');
+
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -34,7 +37,12 @@ function init() {
     }
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    stats = new Stats();
+    container.appendChild(stats.dom);
 
     window.addEventListener('resize', onWindowResize, false);
 }
@@ -78,4 +86,6 @@ function loadFont() {
 function render() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
+
+    stats.update();
 }
